@@ -1,0 +1,29 @@
+{
+  "name": "monefy-web",
+  "version": "0.0.1",
+  "description": "A web layer for the Monefy, the handy personal finance management tool.",
+  "main": "index.js",
+  "scripts": {
+    "test": ""
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/vandenbroucke/monefy-web.git"
+  },
+  "keywords": [
+    "Monefy",
+    "web",
+    "analysis",
+    "personal",
+    "finance",
+    "finance",
+    "money",
+    "management"
+  ],
+  "author": "Steven Vanden Broucke",
+  "license": "GPL-3.0",
+  "bugs": {
+    "url": "https://github.com/vandenbroucke/monefy-web/issues"
+  },
+  "homepage": "https://github.com/vandenbroucke/monefy-web#readme"
+}
