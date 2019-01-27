@@ -4,7 +4,7 @@
   "description": "A web layer for the Monefy, the handy personal finance management tool.",
   "main": "index.js",
   "scripts": {
-    "test": ""
+    "build": "webpack --config webpack.config.js"
   },
   "repository": {
     "type": "git",
@@ -25,5 +25,25 @@
   "bugs": {
     "url": "https://github.com/vandenbroucke/monefy-web/issues"
   },
-  "homepage": "https://github.com/vandenbroucke/monefy-web#readme"
+  "homepage": "https://github.com/vandenbroucke/monefy-web#readme",
+  "dependencies": {
+    "axios": "^0.18.0",
+    "chart.js": "^2.7.3",
+    "papaparse": "^4.6.2",
+    "randomcolor": "^0.5.3",
+    "uikit": "^3.0.0-rc.23",
+    "vue": "^2.5.17",
+    "vue-chartjs": "^3.4.0",
+    "vue-router": "^3.0.1",
+    "vue2-datepicker": "^2.8.0",
+    "vuex": "^3.0.1"
+  },
+  "devDependencies": {
+    "css-loader": "^1.0.1",
+    "vue-loader": "^15.4.2",
+    "vue-style-loader": "^4.1.2",
+    "vue-template-compiler": "^2.5.17",
+    "webpack": "^4.25.1",
+    "webpack-cli": "^3.1.2"
+  }
 }
