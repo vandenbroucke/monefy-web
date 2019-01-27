@@ -7,6 +7,8 @@ import Router from 'vue-router'
 Vue.use(Router)
 
 let router = new Router({
+  base:"/monefy-web",
+  //base:"/" FOR DEV
   mode: 'history',
   routes: [  
     {
