@@ -15,7 +15,7 @@
         </div>
 
 
-        <div class="uk-position-center">
+        <div class="uk-position-center center-display">
             <h1 class="main_title">
                 Monefy-web
             </h1>
