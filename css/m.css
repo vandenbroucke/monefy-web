@@ -11942,6 +11942,9 @@ iframe.uk-cover {
 .inline_block {
   display: inline-block;
 }
+.center-display {
+  top: 40vh !important;
+}
 #section_import {
   width: 100vw;
   overflow: hidden;
@@ -12034,9 +12037,6 @@ iframe.uk-cover {
     max-width: 80%;
     text-align: center;
     margin: 0 auto;
-  }
-  #section_import .center-display {
-    top: 33% !important;
   }
   #section_import .overlay {
     bottom: -16em;
