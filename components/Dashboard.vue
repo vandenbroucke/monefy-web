@@ -139,6 +139,7 @@ export default{
                 this.charts.data.timeline_balance = ChartHelper.format_chartdata_timeline_balance(this.preprocessed.raw_timeline_balance);
                 this.charts.data.bar_costs = ChartHelper.format_chartdata_barchart(costs.data,costs.colors,costs.labels);
                 this.charts.data.bar_income = ChartHelper.format_chartdata_barchart(income.data,income.colors,income.labels);
+                this.filter.records_by_category = this.preprocessed.raw_records_by_category;
             }
             else{
                 let min=dates[0].getTime(),
@@ -158,6 +159,7 @@ export default{
                 let filtered_category_totals = FinanceHelper.sum_categories_by_property(filtered_records_by_category,"amount");  
                 let [costs,income] = ChartHelper.prepare_barchart_cost_income_data(filtered_category_totals);
 
+                this.filtered.records_by_category = filtered_records_by_category;
                 this.charts.data.timeline_balance = ChartHelper.format_chartdata_timeline_balance(filtered_timeline_data);
                 this.charts.data.bar_costs = ChartHelper.format_chartdata_barchart(costs.data,costs.colors,costs.labels);
                 this.charts.data.bar_income = ChartHelper.format_chartdata_barchart(income.data,income.colors,income.labels);
