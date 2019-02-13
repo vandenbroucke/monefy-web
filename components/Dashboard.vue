@@ -3,7 +3,7 @@
         <div class="uk-grid uk-padding uk-grid-small" uk-grid>
             <div class=uk-width-1-1@m>
                 <div class="uk-card uk-card-default uk-card-body card uk-padding-small card-chart">          
-                      <date-picker v-model="filter_values.date_range" :range="true" :confirm="true" :clearable="true" v-on:change="filters_dates_on_change" :lang="options.filters_daterange_lang"></date-picker>  
+                      <date-picker v-model="filter_values.date_range" :range="true" :confirm="true" :clearable="true" v-on:change="filters_dates_on_change" :lang="options.filters_daterange_lang" :shortcuts="options.shortcuts"></date-picker>  
 
                     <div class="chart-container-timeline">                            
                         <reactive-time-line :chart-data="charts.data.timeline_balance" :plugins="charts.plugins.timeline_bicolor"></reactive-time-line> 
@@ -33,7 +33,7 @@
             </div>
             <div class=uk-width-1-4@m>
                 <div class="uk-card uk-card-default uk-card-body card uk-padding-small record_list ">        
-                    <h3 class="inline_block">Records <span class="uk-text-meta">{{ filter_values.category || "(select from barchart)"}}</span></h3> 
+                    <h3 class="inline_block">Records <span class="uk-text-meta">({{ filter_values.category || "select from barchart"}})</span></h3> 
                     <table class="uk-table uk-table-striped uk-margin-remove-top" v-if="filter_values.category">
                         <tbody>
                             <tr v-for="record in filtered.records_by_category[filter_values.category]">
@@ -55,21 +55,26 @@
                     <table class="uk-table uk-table-striped uk-margin-remove-top uk-table-small analysis-table">
                         <tbody>
                             <tr>
-                                <td>Balance over period</td>
+                                <td class="uk-text-bold">Balance over period</td>
                                 <td>{{(metrics.balance).toFixed(2)}}</td>
                             </tr>
                             <tr>
-                                <td>Est. Costs (D/M/Y)</td>
+                                <td class="uk-text-bold">Est. Costs (D/M/Y)</td>
                                 <td>{{"(" + (metrics.daily.costs).toFixed(2) + " / " + (metrics.daily.costs*30).toFixed(2)+ " / " + (metrics.daily.costs*365).toFixed(2)+")"}}</td>
                             </tr>
                             <tr>
-                                <td>Est. Income (D/M/Y)</td>
+                                <td class="uk-text-bold">Est. Income (D/M/Y)</td>
                                 <td>{{"(" + (metrics.daily.income).toFixed(2) + " / " + (metrics.daily.income*30).toFixed(2)+ " / " + (metrics.daily.income*365).toFixed(2)+")"}}</td>
                             </tr>
                             <tr>
-                                <td>Savings (D/M/Y)</td>
+                                <td class="uk-text-bold">Savings (D/M/Y)</td>
                                 <td>{{"(" + (metrics.savings.daily).toFixed(2) + " / " + (metrics.savings.monthly).toFixed(2)+ " / " + (metrics.savings.yearly).toFixed(2)+")"}}</td>
-                            </tr>                         
+                            </tr>
+                            <tr>
+                                <td class="uk-text-bold">Projections (1Y/3Y/5Y/10Y)</td>
+                                <td>{{"(" + (metrics.savings.yearly).toFixed(2) + " / " + (metrics.savings.yearly*3).toFixed(2)+ " / " + (metrics.savings.yearly*5).toFixed(2)+"/"+(metrics.savings.yearly*10).toFixed(2)+")"}}</td>
+                            </tr>
+                                                     
                         </tbody>
                     </table>             
                 </div>                   
@@ -87,6 +92,8 @@ import ChartHelper from '../js/helpers/chart.js'
 import ParserHelper from '../js/helpers/parser.js'
 import FinanceHelper from '../js/helpers/finance.js'
 
+const day_ms = 86400000;
+const today_ms = new Date().getTime();
 
 export default{
     components:{
@@ -118,6 +125,17 @@ export default{
             //Options for components
             options:{
                 filters_daterange_lang:"en",
+                shortcuts:[
+                    {text:"Last 7 days",
+                     start:today_ms - 7*day_ms,
+                     end:today_ms},
+                     {text:"Last 31 days",
+                     start:today_ms - 31*day_ms,
+                     end:today_ms},
+                     {text:"Last 365 days",
+                     start:today_ms - 365*day_ms,
+                     end:today_ms}
+                ]
             },
             //Metrics that are directly displayed
             metrics:{},

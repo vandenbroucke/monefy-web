@@ -11887,7 +11887,7 @@ iframe.uk-cover {
 }
 #dashboard .record_list {
   max-height: 38vh;
-  overflow-y: scroll;
+  overflow-y: auto;
 }
 #dashboard .record_list td,
 #dashboard .analysis-table td {
