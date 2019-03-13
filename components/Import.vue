@@ -37,7 +37,7 @@
                 <a uk-toggle href="#modal_how_import" title="What is the monefy .csv file?" class="uk-button uk-button-default uk-button-small uk-margin-bottom">.CSV file?</a>
                 <div class="uk-margin-bottom">
                     By using this application your data will <b>not</b> be uploaded to any online service. The application runs purely locally on your device.
-                    For now, we only support single currency usage. <div class="uk-text-meta">Pattern background by Steve Schoger</div>
+                    For now, we only support single currency usage.
                 </div>
                 <a class="github-button uk-position-center" href="https://github.com/vandenbroucke/monefy-web" data-size="large" data-show-count="true" aria-label="Star vandenbroucke/monefy-web on GitHub">Star</a>
             </footer>  
