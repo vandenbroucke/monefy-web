@@ -23,7 +23,7 @@
 
     <div class="uk-position-center center-display">
       <video width="500" autoplay loop muted>
-        <source src="/img/v.webm" type="video/webm">Sorry, your browser doesn't support embedded videos.
+        <source src="/monefy-web/img/v.webm" type="video/webm">Sorry, your browser doesn't support embedded videos.
       </video>
       <h1 class="main_title">Monefy-web</h1>
       <h2>An unofficial open-source web layer for Monefy.</h2>
