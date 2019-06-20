@@ -19,9 +19,15 @@ import chart from '../js/helpers/chart';
           scales:{
             xAxes:[{
               ticks: {
-                  autoSkip:false
+                  autoSkip:false,
+                  fontColor: "rgba(255,255,255,0.45)"
               }
-          }]
+            }],
+            yAxes:[{
+              ticks: {
+                fontColor: "rgba(255,255,255,0.45)"
+              }
+            }]
           },
           xAxes:[{
               ticks: {

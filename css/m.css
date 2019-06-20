@@ -9,7 +9,7 @@
  */
 html {
   /* 1 */
-  font-family: 'Open Sans', sans-serif;
+  font-family: "Open Sans", sans-serif;
   font-size: 16px;
   font-weight: normal;
   line-height: 1.5;
@@ -239,7 +239,7 @@ h5,
 h6,
 .uk-h6 {
   margin: 0 0 20px 0;
-  font-family: 'Open Sans', sans-serif;
+  font-family: "Open Sans", sans-serif;
   font-weight: normal;
   color: #333;
   text-transform: none;
@@ -3891,7 +3891,7 @@ ul.uk-nav-sub {
   padding: 0 15px;
   /* 3 */
   font-size: 0.875rem;
-  font-family: 'Open Sans', sans-serif;
+  font-family: "Open Sans", sans-serif;
   /* 4 */
   text-decoration: none;
 }
@@ -7853,7 +7853,7 @@ iframe.uk-cover {
  */
 .uk-logo {
   font-size: 1.5rem;
-  font-family: 'Open Sans', sans-serif;
+  font-family: "Open Sans", sans-serif;
   color: #666;
   /* 1 */
   text-decoration: none;
@@ -11868,13 +11868,13 @@ iframe.uk-cover {
   font-size: 1.5rem;
 }
 .uk-card-default {
-  background: #fff;
+  background: #2c49c7;
   border-radius: 5px;
+  color: #bac5f8;
 }
 #section_import,
 #dashboard {
-  background-size: cover;
-  background-image: url('../img/homepage_bg.jpg');
+  background: linear-gradient(to top, #2640b2, #1635bc);
 }
 #dashboard {
   width: 100%;
@@ -11885,6 +11885,9 @@ iframe.uk-cover {
 #dashboard .clickable canvas {
   cursor: pointer !important;
 }
+#dashboard .uk-text-meta {
+  color: #677ee3;
+}
 #dashboard .record_list {
   max-height: 38vh;
   overflow-y: auto;
@@ -11893,7 +11896,14 @@ iframe.uk-cover {
 #dashboard .analysis-table td {
   padding-top: 0em;
   padding-bottom: 0em;
-  font-size: .8em;
+  font-size: 0.8em;
+}
+#dashboard .record_list tr:nth-of-type(odd),
+#dashboard .analysis-table tr:nth-of-type(odd) {
+  background: #1635bc;
+  border: none;
+  /* border-top: 1px solid #1635bc; */
+  /* border-bottom: 1px solid #e5e5e5; */
 }
 #dashboard .balance_indicator {
   float: right;
@@ -11907,10 +11917,18 @@ iframe.uk-cover {
 }
 #dashboard .mx-input {
   border: none;
-  background-color: #f4f4f4;
+  background-color: #1635bc;
+  color: #bac5f8;
+}
+#dashboard .mx-input::placeholder {
+  color: #bac5f8;
 }
 #dashboard .mx-datepicker {
   margin-bottom: 1em;
+}
+#dashboard .mx-datepicker .mx-calendar-icon,
+#dashboard .mx-datepicker .mx-input-icon {
+  color: #bac5f8;
 }
 #dashboard .mx-datepicker:hover .mx-calendar-icon {
   display: none;
@@ -11928,14 +11946,14 @@ iframe.uk-cover {
   position: relative;
 }
 #dashboard .chart h3 {
-  font-size: .8rem;
+  font-size: 0.8rem;
   opacity: 0.7;
 }
 #dashboard .chart_category_usages {
   width: 50%;
 }
 #dashboard h3 {
-  color: #b0b0b0;
+  color: #bac5f8;
   font-weight: 300;
   font-size: 1.2rem;
 }
@@ -11962,17 +11980,25 @@ iframe.uk-cover {
 #section_import .pull-icon svg {
   pointer-events: none;
 }
+#section_import video {
+  -webkit-box-shadow: 0px 0px 16px 0px rgba(0, 0, 0, 0.21);
+  -moz-box-shadow: 0px 0px 16px 0px rgba(0, 0, 0, 0.21);
+  box-shadow: 0px 0px 16px 0px rgba(0, 0, 0, 0.21);
+  position: absolute;
+  right: -443px;
+  top: 19px;
+}
 #section_import footer {
   max-width: 40vw;
-  font-size: .8em;
-  opacity: .75;
+  font-size: 0.8em;
+  opacity: 0.75;
   text-align: center;
 }
 #section_import .uk-spinner {
   color: white;
 }
 #section_import .main_title {
-  font-family: 'Pacifico', cursive;
+  font-family: "Pacifico", cursive;
   font-size: 4em;
   text-shadow: 1px 1px 2px #969696;
   color: white;
@@ -11980,18 +12006,18 @@ iframe.uk-cover {
 }
 #section_import h2,
 #section_import h3 {
-  font-family: 'Open Sans', sans-serif;
+  font-family: "Open Sans", sans-serif;
   color: white;
   text-shadow: 1px 1px 2px #969696;
   text-align: center;
   display: block;
   font-weight: 300;
   margin: 0;
-  opacity: .9;
+  opacity: 0.9;
   font-size: 1em;
 }
 #section_import h3 {
-  font-size: .9em;
+  font-size: 0.9em;
   margin-top: 1em;
   pointer-events: none;
 }
@@ -12026,7 +12052,7 @@ iframe.uk-cover {
   }
   #section_import h2,
   #section_import h3 {
-    font-size: .8em;
+    font-size: 0.8em;
   }
   #section_import .pull-icon {
     padding-top: 2.5em;
@@ -12043,6 +12069,6 @@ iframe.uk-cover {
   }
   #section_import footer div,
   #section_import footer div.uk-text-meta {
-    font-size: .85em;
+    font-size: 0.85em;
   }
 }

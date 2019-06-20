@@ -18,10 +18,10 @@
             ,scales: {
               yAxes:[ { ticks: {
                   display:0,
-                  fontColor: "rgba(0,0,0,0.5)", fontStyle: "bold", beginAtZero: !0, maxTicksLimit: 10, padding: 0
+                  fontColor: "rgba(255,255,255,0.5)", fontStyle: "bold", beginAtZero: !0, maxTicksLimit: 10, padding: 0
                 },                
                 gridLines: {
-                  drawTicks: !1, display: !1 
+                  drawTicks: !1, display: !1,
                 }
               }
               ], xAxes:[ {
@@ -30,8 +30,13 @@
                     parser: 'DD/MM/YYYY'
                   },
                   ticks: {
-                  padding: -20, fontColor: "rgba(0,0,0,0.2)", fontStyle: "bold",
-                  data:'source'
+                  padding: -20, fontColor: "rgba(255,255,255,0.35)", fontStyle: "bold",
+                  data:'source',
+                  gridLines: {
+                    color:"rgba(255,255,255,0.2)",
+                    display:1,
+                    drawTicks:1
+                  }
                 }
               }
               ]

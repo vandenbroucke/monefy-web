@@ -1,6 +1,6 @@
 <template>
     <section id="dashboard">
-        <div class="uk-grid uk-padding uk-grid-small" uk-grid>
+        <div class="uk-grid uk-padding uk-grid-small uk-container" uk-grid>
             <div class=uk-width-1-1@m>
                 <div class="uk-card uk-card-default uk-card-body card uk-padding-small card-chart">          
                       <date-picker v-model="filter_values.date_range" :range="true" :confirm="true" :clearable="true" v-on:change="filters_dates_on_change" :lang="options.filters_daterange_lang" :shortcuts="options.shortcuts"></date-picker>  
@@ -11,8 +11,36 @@
                                                      
                 </div>                   
             </div>
+            <div class=uk-width-1-4@m>
+                <div class="uk-card uk-card-default uk-card-body card uk-padding-small card-chart">        
+                    <h3 class="inline_block">Analysis</h3>       
 
-
+                    <table class="uk-table uk-table-striped uk-margin-remove-top uk-table-small analysis-table">
+                        <tbody>
+                            <tr>
+                                <td class="uk-text-bold">Balance over period</td>
+                                <td>{{(metrics.balance).toFixed(2)}}</td>
+                            </tr>
+                            <tr>
+                                <td class="uk-text-bold">Est. Costs (D/M/Y)</td>
+                                <td>{{"(" + (metrics.daily.costs).toFixed(2) + " / " + (metrics.daily.costs*30).toFixed(2)+ " / " + (metrics.daily.costs*365).toFixed(2)+")"}}</td>
+                            </tr>
+                            <tr>
+                                <td class="uk-text-bold">Est. Income (D/M/Y)</td>
+                                <td>{{"(" + (metrics.daily.income).toFixed(2) + " / " + (metrics.daily.income*30).toFixed(2)+ " / " + (metrics.daily.income*365).toFixed(2)+")"}}</td>
+                            </tr>
+                            <tr>
+                                <td class="uk-text-bold">Savings (D/M/Y)</td>
+                                <td>{{"(" + (metrics.savings.daily).toFixed(2) + " / " + (metrics.savings.monthly).toFixed(2)+ " / " + (metrics.savings.yearly).toFixed(2)+")"}}</td>
+                            </tr>
+                            <tr>
+                                <td class="uk-text-bold">Projections (1Y/3Y/5Y/10Y)</td>
+                                <td>{{"(" + (metrics.savings.yearly).toFixed(2) + " / " + (metrics.savings.yearly*3).toFixed(2)+ " / " + (metrics.savings.yearly*5).toFixed(2)+"/"+(metrics.savings.yearly*10).toFixed(2)+")"}}</td>
+                            </tr>                                                     
+                        </tbody>
+                    </table>             
+                </div>                   
+            </div>   
             <div class=uk-width-1-4@m>
                 <div class="uk-card uk-card-default uk-card-body card uk-padding-small card-chart clickable">    
                     <h3 class="inline_block">Costs</h3>   
@@ -42,43 +70,18 @@
                                 <td class="uk-text-bold">{{record.amount}}</td>
                             </tr>
                         </tbody>
-                    </table>
-
-                                           
+                    </table>                                           
                 </div>                   
             </div>
-
-            <div class=uk-width-1-4@m>
-                <div class="uk-card uk-card-default uk-card-body card uk-padding-small card-chart">        
-                    <h3 class="inline_block">Analysis</h3>       
-
-                    <table class="uk-table uk-table-striped uk-margin-remove-top uk-table-small analysis-table">
-                        <tbody>
-                            <tr>
-                                <td class="uk-text-bold">Balance over period</td>
-                                <td>{{(metrics.balance).toFixed(2)}}</td>
-                            </tr>
-                            <tr>
-                                <td class="uk-text-bold">Est. Costs (D/M/Y)</td>
-                                <td>{{"(" + (metrics.daily.costs).toFixed(2) + " / " + (metrics.daily.costs*30).toFixed(2)+ " / " + (metrics.daily.costs*365).toFixed(2)+")"}}</td>
-                            </tr>
-                            <tr>
-                                <td class="uk-text-bold">Est. Income (D/M/Y)</td>
-                                <td>{{"(" + (metrics.daily.income).toFixed(2) + " / " + (metrics.daily.income*30).toFixed(2)+ " / " + (metrics.daily.income*365).toFixed(2)+")"}}</td>
-                            </tr>
-                            <tr>
-                                <td class="uk-text-bold">Savings (D/M/Y)</td>
-                                <td>{{"(" + (metrics.savings.daily).toFixed(2) + " / " + (metrics.savings.monthly).toFixed(2)+ " / " + (metrics.savings.yearly).toFixed(2)+")"}}</td>
-                            </tr>
-                            <tr>
-                                <td class="uk-text-bold">Projections (1Y/3Y/5Y/10Y)</td>
-                                <td>{{"(" + (metrics.savings.yearly).toFixed(2) + " / " + (metrics.savings.yearly*3).toFixed(2)+ " / " + (metrics.savings.yearly*5).toFixed(2)+"/"+(metrics.savings.yearly*10).toFixed(2)+")"}}</td>
-                            </tr>
+               <div class=uk-width-1-1@m>
+                <div class="uk-card uk-card-default uk-card-body card uk-padding-small card-chart">       
+                    <h3 class="inline_block">Category timeline <span class="uk-text-meta">({{ filter_values.category || "select from barchart"}})</span></h3> </h3>  
+                    <div class="chart-container-timeline" v-if="filter_values.category">                            
+                        <reactive-time-line :chart-data="selected_category_timeline_data"></reactive-time-line>
+                    </div>                 
                                                      
-                        </tbody>
-                    </table>             
                 </div>                   
-            </div>       
+            </div>                
     </div>
     </section>
 </template>
@@ -157,7 +160,12 @@ export default{
                 this.charts.data.timeline_balance = ChartHelper.format_chartdata_timeline_balance(this.preprocessed.raw_timeline_balance);
                 this.charts.data.bar_costs = ChartHelper.format_chartdata_barchart(costs.data,costs.colors,costs.labels);
                 this.charts.data.bar_income = ChartHelper.format_chartdata_barchart(income.data,income.colors,income.labels);
-                this.filter.records_by_category = this.preprocessed.raw_records_by_category;
+                console.log("before filtered")
+                console.log(this.filtered);
+                console.log(this.preprocessed.raw_records_by_category);
+
+                this.filtered.records_by_category = this.preprocessed.raw_records_by_category;
+          
             }
             else{
                 let min=dates[0].getTime(),
@@ -191,7 +199,9 @@ export default{
             this.preprocessed.raw_timeline_balance = ChartHelper.prepare_cumulative_timelime_data(input_records);
             this.preprocessed.raw_records_by_category = ParserHelper.group_array_by_key(input_records,"category");   
             this.preprocessed.raw_category_totals = FinanceHelper.sum_categories_by_property(this.preprocessed.raw_records_by_category,"amount");     
-        }       
+        }
+    
+           
     },
     created(){
         this.process_raw_records(this.$store.getters.rawData);
@@ -202,6 +212,16 @@ export default{
         this.charts.data.timeline_balance = ChartHelper.format_chartdata_timeline_balance(this.preprocessed.raw_timeline_balance);
         this.charts.data.bar_costs = ChartHelper.format_chartdata_barchart(costs.data,costs.colors,costs.labels);
         this.charts.data.bar_income = ChartHelper.format_chartdata_barchart(income.data,income.colors,income.labels);
+    },
+    computed:{
+        selected_category_timeline_data(){        
+            console.log("before timeline manipulate");
+            console.log(this.filtered.records_by_category[this.filter_values.category]);
+            let result = ChartHelper.format_chartdata_timeline_balance(ChartHelper.prepare_cumulative_timelime_data(this.filtered.records_by_category[this.filter_values.category]));
+            console.log("after timeline manipulate");
+            console.log(result)
+            return result;
+        }
     },
     filters:{
         filter_round_float(input){
