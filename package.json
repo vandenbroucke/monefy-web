@@ -27,7 +27,6 @@
   },
   "homepage": "https://github.com/vandenbroucke/monefy-web#readme",
   "dependencies": {
-    "axios": "^0.18.0",
     "chart.js": "^2.7.3",
     "papaparse": "^4.6.2",
     "randomcolor": "^0.5.3",
