@@ -75,7 +75,8 @@
             </div>
                <div class=uk-width-1-1@m>
                 <div class="uk-card uk-card-default uk-card-body card uk-padding-small card-chart">       
-                    <h3 class="inline_block">Category timeline <span class="uk-text-meta">({{ filter_values.category || "select from barchart"}})</span></h3> </h3>  
+                    <h3 class="inline_block">Category timeline <span class="uk-text-meta">({{ filter_values.category || "select from barchart"}})</span></h3>
+                    <span class="uk-text-meta" v-if="filter_values.category">{{selected_category_stats}}</span>
                     <div class="chart-container-timeline" v-if="filter_values.category">                            
                         <reactive-time-line :chart-data="selected_category_timeline_data"></reactive-time-line>
                     </div>                 
@@ -160,12 +161,8 @@ export default{
                 this.charts.data.timeline_balance = ChartHelper.format_chartdata_timeline_balance(this.preprocessed.raw_timeline_balance);
                 this.charts.data.bar_costs = ChartHelper.format_chartdata_barchart(costs.data,costs.colors,costs.labels);
                 this.charts.data.bar_income = ChartHelper.format_chartdata_barchart(income.data,income.colors,income.labels);
-                console.log("before filtered")
-                console.log(this.filtered);
-                console.log(this.preprocessed.raw_records_by_category);
-
-                this.filtered.records_by_category = this.preprocessed.raw_records_by_category;
-          
+                this.filter.records_by_category = this.preprocessed.raw_records_by_category;
+                
             }
             else{
                 let min=dates[0].getTime(),
@@ -215,13 +212,29 @@ export default{
     },
     computed:{
         selected_category_timeline_data(){        
-            console.log("before timeline manipulate");
-            console.log(this.filtered.records_by_category[this.filter_values.category]);
-            let result = ChartHelper.format_chartdata_timeline_balance(ChartHelper.prepare_cumulative_timelime_data(this.filtered.records_by_category[this.filter_values.category]));
-            console.log("after timeline manipulate");
-            console.log(result)
-            return result;
+            return ChartHelper.format_chartdata_timeline_balance(ChartHelper.prepare_cumulative_timelime_data(this.filtered.records_by_category[this.filter_values.category]));;
+        },
+        selected_category_stats(){      
+            if(this.filter_values.date_range.length == 2 && this.filter_values.date_range[0] && this.filter_values.date_range[1] && this.filter_values.category){
+                let days = Math.round(Math.abs(this.filter_values.date_range[0].getTime()-this.filter_values.date_range[1].getTime())/86400000);                
+                let records_by_selected_category = this.filtered.records_by_category[this.filter_values.category];
+                let total = 0;
+
+                console.log(days);
+
+                for(var i=0;i<records_by_selected_category.length;i++){
+                    console.log(records_by_selected_category[i].amount);
+                    console.log(total);
+                    total+=records_by_selected_category[i].amount;
+                }
+                let perDay = total/days;    
+                return "("+parseFloat(perDay).toFixed(1)+"/D, "+parseFloat(perDay*31).toFixed(1) +"/M, "+ parseFloat(perDay*365).toFixed(1) +"/Y)"
+            }
+            else{
+                return ""
+            }
         }
+
     },
     filters:{
         filter_round_float(input){
