@@ -4,7 +4,7 @@ const path = require("path");
 
 module.exports = {
   watch: true,
-  mode: "development",
+  mode: "production",
   entry: ["./js/index.js"],
   output: {
     filename: "bundle.js",

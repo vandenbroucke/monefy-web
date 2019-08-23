@@ -27,15 +27,19 @@
   },
   "homepage": "https://github.com/vandenbroucke/monefy-web#readme",
   "dependencies": {
-    "chart.js": "^2.7.3",
-    "papaparse": "^4.6.2",
-    "randomcolor": "^0.5.3",
-    "uikit": "^3.0.0-rc.23",
-    "vue": "^2.5.17",
-    "vue-chartjs": "^3.4.0",
-    "vue-router": "^3.0.1",
-    "vue2-datepicker": "^2.8.0",
-    "vuex": "^3.0.1"
+    "chart.js": "^2.8.0",
+    "papaparse": "^4.6.3",
+    "randomcolor": "^0.5.4",
+    "uikit": "^3.1.7",
+    "vue": "^2.6.10",
+    "vue-chartjs": "^3.4.2",
+    "vue-loader": "^15.7.1",
+    "vue-router": "^3.1.2",
+    "vue-template-compiler": "^2.6.10",
+    "vue2-datepicker": "^2.12.0",
+    "vuex": "^3.1.1",
+    "webpack": "^4.39.2",
+    "webpack-cli": "^3.3.7"
   },
   "devDependencies": {
     "css-loader": "^1.0.1",
