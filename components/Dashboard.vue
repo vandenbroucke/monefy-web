@@ -3,8 +3,7 @@
         <div class="uk-grid uk-padding uk-grid-small uk-container" uk-grid>
             <div class=uk-width-1-1@m>
                 <div class="uk-card uk-card-default uk-card-body card uk-padding-small card-chart">          
-                      <date-picker v-model="filter_values.date_range" :range="true" :confirm="true" :clearable="true" v-on:change="filters_dates_on_change" :lang="options.filters_daterange_lang" :shortcuts="options.shortcuts"></date-picker>  
-
+                      <date-picker v-model="filter_values.date_range" :range="true" :confirm="true" :clearable="true" v-on:change="filters_dates_on_change" :lang="options.filters_daterange_lang" :shortcuts="options.shortcuts"></date-picker>
                     <div class="chart-container-timeline">                            
                         <reactive-time-line :chart-data="charts.data.timeline_balance" :plugins="charts.plugins.timeline_bicolor"></reactive-time-line> 
                     </div>                 
@@ -59,6 +58,7 @@
                     </div>                                  
                 </div>                   
             </div>
+            
             <div class=uk-width-1-4@m>
                 <div class="uk-card uk-card-default uk-card-body card uk-padding-small record_list ">        
                     <h3 class="inline_block">Records <span class="uk-text-meta">({{ filter_values.category || "select from barchart"}})</span></h3> 
@@ -73,7 +73,58 @@
                     </table>                                           
                 </div>                   
             </div>
-               <div class=uk-width-1-1@m>
+            <div class="uk-width-1-2@m">
+                <div class="uk-card uk-card-default uk-card-body card uk-padding-small comparison_list">        
+                    <h3 class="inline_block">Comparison</h3> 
+                    <table class="uk-table uk-margin-remove-top uk-table-striped uk-margin-remove-top uk-table-small">
+                        <tbody>
+                            <tr>
+                                <th></th>
+                                <th colspan="3" class="odd">
+                                    <span uk-icon="icon: minus" class="uk-float-left" v-on:click="update_year_filter('comparison_year_one',-1)" ></span>
+                                    {{comparison_year_one}} 
+                                    <span uk-icon="icon: plus" class="uk-float-right" v-on:click="update_year_filter('comparison_year_one',1)" ></span>
+                                </th>
+                                <th colspan="3">
+                                    <span uk-icon="icon: minus" class="uk-float-left" v-on:click="update_year_filter('comparison_year_two',-1)" ></span>
+                                     {{comparison_year_two}} 
+                                    <span uk-icon="icon: plus" class="uk-float-right" v-on:click="update_year_filter('comparison_year_two',1)"></span>
+                                </th>
+                                <th></th>
+                            </tr>
+                            <tr>
+                                <th title="Month">M</th>
+                                <th title="Cost">C</th>
+                                <th title="Income">I</th>
+                                <th title="Balance">B</th>
+                                <th title="Cost">C</th>
+                                <th title="Income">I</th>
+                                <th title="Balance">B</th>
+                                <th title="Difference">D</th>
+                            </tr>
+                            
+
+
+                            <tr v-for="month in months">
+                                <td>{{month}}</td>
+                                <td>{{preprocessed.raw_metrics_per_year_per_month[comparison_year_one][month].cost.toFixed(1) }}</td>
+                                <td>{{preprocessed.raw_metrics_per_year_per_month[comparison_year_one][month].income.toFixed(1) }}</td>
+                                <td>{{preprocessed.raw_metrics_per_year_per_month[comparison_year_one][month].balance.toFixed(1)  }}</td>
+                                <td>{{preprocessed.raw_metrics_per_year_per_month[comparison_year_two][month].cost.toFixed(1) }}</td>
+                                <td>{{preprocessed.raw_metrics_per_year_per_month[comparison_year_two][month].income.toFixed(1) }}</td>
+                                <td>{{preprocessed.raw_metrics_per_year_per_month[comparison_year_two][month].balance.toFixed(1) }}</td>
+                                <td
+                                     v-bind:class="[(preprocessed.raw_metrics_per_year_per_month[comparison_year_two][month].balance - preprocessed.raw_metrics_per_year_per_month[comparison_year_one][month].balance).toFixed(1) < 0 ? 'table_red' : 'table_green']"
+                                
+                                >{{(preprocessed.raw_metrics_per_year_per_month[comparison_year_two][month].balance - preprocessed.raw_metrics_per_year_per_month[comparison_year_one][month].balance).toFixed(1) }}</td>
+
+                            </tr>
+                            
+                        </tbody>
+                    </table>                                                              
+                </div>                   
+            </div>
+               <div class=uk-width-1-2@m>
                 <div class="uk-card uk-card-default uk-card-body card uk-padding-small card-chart">       
                     <h3 class="inline_block">Category timeline <span class="uk-text-meta">({{ filter_values.category || "select from barchart"}})</span></h3>
                     <span class="uk-text-meta" v-if="filter_values.category">{{selected_category_stats}}</span>
@@ -120,7 +171,9 @@ export default{
             },
             filtered:{
                 records_by_category:{}
-            },
+            },            
+            comparison_year_one:2018,
+            comparison_year_two:2019,
             preprocessed:{
                 raw_timeline_balance:{},
                 raw_records_by_category:{},
@@ -146,10 +199,18 @@ export default{
             filter_values:{
                 date_range:"",
                 category:""
-            }            
+            },
+            months:[0,1,2,3,4,5,6,7,8,9,10,11]            
         };
     },
-    methods:{        
+    methods:{         
+        
+        update_year_filter(comparison_year, modifier){
+            let new_year_value = this[comparison_year] + modifier;
+            if(new_year_value >1990 && new_year_value < new Date().getUTCFullYear()+1) this[comparison_year] = new_year_value;
+        },
+
+
         /**
          * Given a change in time range, update the visualized data.
          * @param {Array} dates An array consisting out of 2 dates representing a time range, [0]: minimum, [0]:maximum
@@ -195,14 +256,13 @@ export default{
         process_raw_records(input_records){    
             this.preprocessed.raw_timeline_balance = ChartHelper.prepare_cumulative_timelime_data(input_records);
             this.preprocessed.raw_records_by_category = ParserHelper.group_array_by_key(input_records,"category");   
-            this.preprocessed.raw_category_totals = FinanceHelper.sum_categories_by_property(this.preprocessed.raw_records_by_category,"amount");     
-        }
-    
-           
+            this.preprocessed.raw_category_totals = FinanceHelper.sum_categories_by_property(this.preprocessed.raw_records_by_category,"amount");
+            //Generate cost and incomes of all years on monthly basis, this only occurs once, on the load of the input data
+            this.preprocessed.raw_metrics_per_year_per_month = FinanceHelper.get_year_month_total_metrics(input_records,2018,2019);
+        }          
     },
     created(){
         this.process_raw_records(this.$store.getters.rawData);
-        console.log(this)
         this.filtered.records_by_category = this.preprocessed.raw_records_by_category;
         this.metrics =  FinanceHelper.generate_metrics_from_records(this.$store.getters.rawData);
         let [costs,income] = ChartHelper.prepare_barchart_cost_income_data(this.preprocessed.raw_category_totals);
@@ -219,16 +279,20 @@ export default{
                 let days = Math.round(Math.abs(this.filter_values.date_range[0].getTime()-this.filter_values.date_range[1].getTime())/86400000);                
                 let records_by_selected_category = this.filtered.records_by_category[this.filter_values.category];
                 let total = 0;
-
-                console.log(days);
-
-                for(var i=0;i<records_by_selected_category.length;i++){
-                    console.log(records_by_selected_category[i].amount);
-                    console.log(total);
-                    total+=records_by_selected_category[i].amount;
+                if(records_by_selected_category == undefined)
+                {
+                    return "";   
                 }
-                let perDay = total/days;    
-                return "("+parseFloat(perDay).toFixed(1)+"/D, "+parseFloat(perDay*31).toFixed(1) +"/M, "+ parseFloat(perDay*365).toFixed(1) +"/Y)"
+                else
+                {
+                    for(var i=0;i<records_by_selected_category.length;i++){
+                        total+=records_by_selected_category[i].amount;
+                    }
+                    let perDay = total/days;    
+                    return "("+parseFloat(perDay).toFixed(1)+"/D, "+parseFloat(perDay*31).toFixed(1) +"/M, "+ parseFloat(perDay*365).toFixed(1) +"/Y)"
+                }
+
+                
             }
             else{
                 return ""
@@ -243,6 +307,6 @@ export default{
         filter_date_format(input){
             return moment(input).format("DD/MM/YY");
         }
-    }     
+    }
 }
 </script>

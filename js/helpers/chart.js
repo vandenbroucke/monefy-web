@@ -36,13 +36,15 @@ export default{
         let cumulative_data=[],
             sum =0;
                 
-        for(var i = 0 ; i < input_records.length;i++){   
-            sum += input_records[i].amount;            
-            cumulative_data.push({
-                x:input_records[i].date,
-                y:sum.toFixed(2)                      
-            });                  
-        }
+        if(input_records != undefined){
+            for(var i = 0 ; i < input_records.length;i++){   
+                sum += input_records[i].amount;            
+                cumulative_data.push({
+                    x:input_records[i].date,
+                    y:sum.toFixed(2)                      
+                });                  
+            }
+        }        
         return cumulative_data;
     },
 

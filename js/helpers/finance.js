@@ -63,5 +63,41 @@ export default{
         metrics.savings.yearly =  metrics.daily.balance * 365;
 
         return metrics
+    },
+     /**
+     * Given Monefy records, calculate metrics per year on a monthly frequency
+     * @param {*} input_records Monefy records (can be filtered)
+     */
+    get_year_month_total_metrics(input_records){
+        //TODO set ranged based on loaded min and maximum year        
+        const range = [1990,new Date().getUTCFullYear()+1];
+        let metrics = {};
+        
+        //For each year within the range create an object for the monthly summary of the income, cost and balance
+        for(let y = range[0];y < range[1];y++)
+        {
+            metrics[y]={};
+            for(let m=0;m < 12; m++){
+                metrics[y][m]={"income":0,"cost":0,"balance":0};
+            }
+        }
+
+        input_records.forEach(function(record){
+            //Add expense/income to the correct year, month and catagory
+            let month = record.date.getMonth();
+            let year = record.date.getUTCFullYear();
+            let amount = parseFloat(record.amount);
+            if(amount>=0) metrics[year][month].income+= amount;
+            else metrics[year][month].cost += amount;
+        });
+
+        //All incomes and expenses are asigned, now calculate the balance for all months
+        for(let y = range[0];y < range[1];y++)
+        {
+            for(let m=0;m < 12; m++){
+                metrics[y][m].balance=metrics[y][m].income +  metrics[y][m].cost;
+            }
+        }
+        return metrics
     }
 }

@@ -43,7 +43,8 @@
   }
 
   .record_list,
-  .analysis-table {
+  .analysis-table,
+  .comparison_list {
     td {
       padding-top: 0em;
       padding-bottom: 0em;
@@ -54,6 +55,29 @@
       border: none;
       /* border-top: 1px solid #1635bc; */
       /* border-bottom: 1px solid #e5e5e5; */
+    }
+  }
+
+  .comparison_list {
+    .table_red{
+      background-color: #de1818;
+      color:white;
+    }
+    .table_green{
+      background-color: rgb(24, 222, 113);
+      color:white;
+    }
+    th{
+      color:white;
+      &.odd{
+        background-color: #284ded;
+        .uk-icon{cursor: pointer;}
+        &+th{
+          background-color: #4462e2;
+          .uk-icon{cursor: pointer;}
+        }
+      }
+      text-align:center;
     }
   }
 
