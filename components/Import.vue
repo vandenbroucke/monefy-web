@@ -16,20 +16,20 @@
             alt
             uk-img
             class="uk-margin-auto uk-display-block"
-          >
+          />
         </div>
       </div>
     </div>
 
     <div class="uk-position-center center-display">
       <video width="500" autoplay loop muted>
-        <source src="/monefy-web/img/v.webm" type="video/webm">Sorry, your browser doesn't support embedded videos.
+        <source src="/monefy-web/img/v.webm" type="video/webm" />Sorry, your browser doesn't support embedded videos.
       </video>
       <h1 class="main_title">Monefy-web</h1>
       <h2>An unofficial open-source web layer for Monefy.</h2>
 
       <span uk-icon="icon:pull;ratio:3;" class="pull-icon">
-        <input type="file" accept=".csv" class="input-file" @change="handleFiles">
+        <input type="file" accept=".csv" class="input-file" @change="handleFiles" />
       </span>
 
       <h3>Drag &amp; Drop your Monefy .csv file here, or tap the icon.</h3>
@@ -103,7 +103,8 @@ export default {
       JSONData.forEach(function(el, idx) {
         if (typeof JSONData[idx].amount == "string") {
           JSONData[idx].amount = parseFloat(
-            JSONData[idx].amount.replace(/,/g, "")
+            //replace commas and spaces
+            JSONData[idx].amount.replace(/[,\s]/g, "")
           );
         }
         JSONData[idx].date = moment(JSONData[idx].date, "DD/MM/YYYY").toDate();
