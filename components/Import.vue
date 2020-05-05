@@ -33,6 +33,10 @@
       </span>
 
       <h3>Drag &amp; Drop your Monefy .csv file here, or tap the icon.</h3>
+      <div class="uk-alert-danger uk-text-small" uk-alert>
+        <a class="uk-alert-close" uk-close></a>
+        <p>Due to an error with the Monefy app, please use "," as the decimal separator and ";" as the delimiter character when exporting from the app</p>
+    </div>
 
       <div uk-spinner class="uk-position-center" v-if="isProcessingInput"></div>
     </div>
@@ -82,10 +86,11 @@ export default {
         if (e.target.files[0]) {
           Papa.parse(e.target.files[0], {
             header: true,
-            dynamicTyping: true,
+            dynamicTyping: false,
             skipEmptyLines: true,
             complete: function(res) {
               vm.isProcessingInput = true;
+              console.log(res.data)
               let rawRead = vm.handleCommaAndDate(res.data);
               //Set raw data in Vuex store for later use in other components
               vm.$store.dispatch("set_raw_data", rawRead);
@@ -103,13 +108,14 @@ export default {
       JSONData.forEach(function(el, idx) {
         if (typeof JSONData[idx].amount == "string") {
           JSONData[idx].amount = parseFloat(
-            //replace commas and spaces
-            JSONData[idx].amount.replace(/[,\s]/g, "")
+            //replace dots and spaces
+            //Currently issue with Monefy APP that adds multiple dots for every thousands increment
+            //Only export option that works for now is decimal comma as decimal seperator and semicolon as delimiter
+            JSONData[idx].amount.replace(/[.\s]/g, "").replace(/,/, '.')
           );
         }
         JSONData[idx].date = moment(JSONData[idx].date, "DD/MM/YYYY").toDate();
       });
-      console.log(JSONData);
       return JSONData;
     }
   }
