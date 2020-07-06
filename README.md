@@ -20,7 +20,7 @@
 ## How does it work?
 
 <p align="center">
-  <img src="https://raw.githubusercontent.com/vandenbroucke/monefy-web/master/img/tutorial.gif" height="580"/> 
+  <img src="https://raw.githubusercontent.com/vandenbroucke/monefy-web/master/img/tut.gif" height="580"/> 
 </p>
 
 Simply export your Monefy financial records as a CSV file and import it into [Monefy-web](https://vandenbroucke.github.io/monefy-web/). You then get presented a visual overview and some simple analysis of your financials. No personal data is tracked, shared or published. Feel free to fork the project and run it yourself! You can even use it offline if you are really that paranoid :).
