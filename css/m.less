@@ -1,7 +1,8 @@
 @import "./../node_modules/uikit/src/less/uikit.theme.less";
-@global-primary-background: #7ac795;
-@global-font-family: "Open Sans", sans-serif;
 
+
+@global-font-family: "Open Sans", sans-serif;
+@global-font-color:#a5a5a5;
 .uk-modal-title {
   font-size: 1.5rem;
 }
@@ -13,17 +14,13 @@
 }
 
 .uk-card-default {
-  background: #2c49c7;
+  background: #fff;
   border-radius: 5px;
-  color: #bac5f8;
-}
-
-#section_import,
-#dashboard {
-  background: linear-gradient(to top, #2640b2, #1635bc);
+  color: @global-font-color;
 }
 
 #dashboard {
+  background:#fbfbfb;
   width: 100%;
   overflow: hidden;
   min-height: 100vh;
@@ -34,9 +31,7 @@
       cursor: pointer !important;
     }
   }
-  .uk-text-meta {
-    color: #677ee3;
-  }
+  
   .record_list {
     max-height: 38vh;
     overflow-y: auto;
@@ -51,10 +46,7 @@
       font-size: 0.8em;
     }
     tr:nth-of-type(odd) {
-      background: #1635bc;
       border: none;
-      /* border-top: 1px solid #1635bc; */
-      /* border-bottom: 1px solid #e5e5e5; */
     }
   }
 
@@ -68,12 +60,11 @@
       color:white;
     }
     th{
-      color:white;
       &.odd{
-        background-color: #284ded;
+        //background-color: #284ded;
         .uk-icon{cursor: pointer;}
         &+th{
-          background-color: #4462e2;
+          //background-color: #4462e2;
           .uk-icon{cursor: pointer;}
         }
       }
@@ -93,16 +84,16 @@
   }
   .mx-input {
     border: none;
-    background-color: #1635bc;
-    color: #bac5f8;
+    background-color: #fbfbfb;
+    color: @global-font-color;;
     &::placeholder {
-      color: #bac5f8;
+      color: @global-font-color;;
     }
   }
   .mx-datepicker {
     .mx-calendar-icon,
     .mx-input-icon {
-      color: #bac5f8;
+      color: @global-font-color;;
     }
     margin-bottom: 1em;
     &:hover {
@@ -139,7 +130,7 @@
   }
 
   h3 {
-    color: #bac5f8;
+    color: @global-font-color;
     font-weight: 300;
     font-size: 1.2rem;
   }
@@ -154,6 +145,7 @@
 }
 
 #section_import {
+  background:#565656;
   width: 100vw;
   overflow: hidden;
   height: 100vh;

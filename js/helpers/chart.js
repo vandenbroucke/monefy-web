@@ -1,4 +1,3 @@
-import randomColor from 'randomcolor'
 /**
  * ChartHelper provides plugins, methods and data transformations to directly plug data into ChartJS charts.
  */
@@ -52,32 +51,38 @@ export default{
      * Splits categories into cost and income
      * @param {Array} input_categories Array of categories and their totals 
      */    
-    prepare_barchart_cost_income_data(input_categories){  
-        let costs = {
-            data:[],
-            labels:[],
-            colors:[]
-        },
-        income = {
-            data:[],
-            labels:[],
-            colors:[]
-        };
-        console.log("input_categories");
-        console.log(input_categories);
+    prepare_sankeychart_cost_income_data(input_categories){  
+        let sankeyChartData= {
+            nodes: [
+              { name: "Loon" },
+              { name: "Income" },
+              { name: "Savings" },
+              { name: "Deposit" },
+              { name: "Huur" }
+            ],
+            links: [
+              { source: "Loon", target: "Income", value: 2000 },
+              { source: "Deposit", target: "Income", value: 200 },
+              { source: "Income", target: "Savings", value: 2200 },
+              { source: "Income", target: "Huur", value: 250 }
+            ]
+          };
+
+        let costs =[],
+        income = [];
+        
         let sorted_categories = input_categories.sort(function(a,b){
            return (Math.abs(a.sum) - Math.abs(b.sum));
-        })
-        
-        console.log(sorted_categories);
-        function pushCategory(type,name,sum,color){
+        })        
+        function pushCategory(type,name,sum){
             type.data.push(sum);
             type.labels.push(name);
-            type.colors.push(color);
         }
         sorted_categories.forEach(function(category){  
-            pushCategory((category.isExpense)?costs:income,category.category,Math.abs(category.sum),randomColor());
+            pushCategory((category.isExpense)?costs:income,category.category,Math.abs(category.sum));
         });  
+        console.log(costs,income)
+
         return [costs,income];
     },
     /**
