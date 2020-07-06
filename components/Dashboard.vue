@@ -20,53 +20,20 @@
           </div>
         </div>
       </div>
-      <div class="uk-width-1-4@m">
-        <div class="uk-card uk-card-default uk-card-body card uk-padding-small card-chart">
-          <h3 class="inline_block">Analysis</h3>
-
-          <table
-            class="uk-table uk-table-striped uk-margin-remove-top uk-table-small analysis-table"
-          >
-            <tbody>
-              <tr>
-                <td class="uk-text-bold">Balance over period</td>
-                <td>{{(metrics.balance).toFixed(2)}}</td>
-              </tr>
-              <tr>
-                <td class="uk-text-bold">Est. Costs (D/M/Y)</td>
-                <td>{{"(" + (metrics.daily.costs).toFixed(2) + " / " + (metrics.daily.costs*30).toFixed(2)+ " / " + (metrics.daily.costs*365).toFixed(2)+")"}}</td>
-              </tr>
-              <tr>
-                <td class="uk-text-bold">Est. Income (D/M/Y)</td>
-                <td>{{"(" + (metrics.daily.income).toFixed(2) + " / " + (metrics.daily.income*30).toFixed(2)+ " / " + (metrics.daily.income*365).toFixed(2)+")"}}</td>
-              </tr>
-              <tr>
-                <td class="uk-text-bold">Savings (D/M/Y)</td>
-                <td>{{"(" + (metrics.savings.daily).toFixed(2) + " / " + (metrics.savings.monthly).toFixed(2)+ " / " + (metrics.savings.yearly).toFixed(2)+")"}}</td>
-              </tr>
-              <tr>
-                <td class="uk-text-bold">Projections (1Y/3Y/5Y/10Y)</td>
-                <td>{{"(" + (metrics.savings.yearly).toFixed(2) + " / " + (metrics.savings.yearly*3).toFixed(2)+ " / " + (metrics.savings.yearly*5).toFixed(2)+"/"+(metrics.savings.yearly*10).toFixed(2)+")"}}</td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-      </div>
-      <div class="uk-width-1-2@m">
+      <div class="uk-width-1-3@m">
         <div
           class="uk-card uk-card-default uk-card-body card uk-padding-small card-chart clickable"
         >
           <h3 class="inline_block">Sankey Chart</h3>
-          <span class="balance_indicator cost">{{metrics.costs | filter_round_float}}</span>
           <div class="uk-padding uk-padding-remove">
-            <div style="position:relative;height:300px;width:100%;" v-on:click="clickSankey">
-              <sankey-chart :data="sankeyChartData" ></sankey-chart>
+            <div style="height:400px;width:100%;" v-on:click="clickSankey">
+              <sankey-chart :data="charts.data.sankey"></sankey-chart>
             </div>
           </div>
         </div>
       </div>
 
-      <div class="uk-width-1-4@m">
+      <div class="uk-width-1-3@m">
         <div class="uk-card uk-card-default uk-card-body card uk-padding-small record_list">
           <h3 class="inline_block">
             Records
@@ -88,7 +55,79 @@
           </table>
         </div>
       </div>
-      <div class="uk-width-1-2@m">
+      
+      <div class="uk-width-1-3@m">
+        <div class="uk-card uk-card-default uk-card-body card uk-padding-small card-chart">
+          <h3 class="inline_block">
+            Category timeline
+            <span
+              class="uk-text-meta"
+            >({{ filter_values.category || "select from Sankey Chart"}})</span>
+          </h3>
+          <span class="uk-text-meta" v-if="filter_values.category">{{selected_category_stats}}</span>
+          <div class="chart-container-timeline" v-if="filter_values.category">
+            <reactive-time-line :chart-data="selected_category_timeline_data"></reactive-time-line>
+          </div>
+        </div>
+      </div>
+      
+      <div class="uk-width-1-3@m">
+        <div class="uk-card uk-card-default uk-card-body card uk-padding-small card-chart">
+          <h3 class="inline_block">Analysis</h3>
+
+          <table
+            class="uk-table uk-table-striped uk-margin-remove-top uk-table-small analysis-table"
+          >
+            <tbody>
+              <tr>
+                <td class="uk-text-bold">Balance</td>
+                <td>{{(metrics.balance).toFixed(2)}}</td>
+              </tr>
+              <tr>
+                <td class="uk-text-bold">Daily Costs</td>
+                <td>{{(metrics.daily.costs).toFixed(2)}}</td>
+              </tr>
+              <tr>
+                <td class="uk-text-bold">Monthly Costs</td>
+                <td>{{(metrics.daily.costs*30).toFixed(2)}}</td>
+              </tr>
+              <tr>
+                <td class="uk-text-bold">Yearly Costs</td>
+                <td>{{(metrics.daily.costs*365).toFixed(2)}}</td>
+              </tr>
+              <tr>
+                <td class="uk-text-bold">Daily Income</td>
+                <td>{{(metrics.daily.income).toFixed(2)}}</td>
+              </tr>
+              <tr>
+                <td class="uk-text-bold">Monthly Income</td>
+                <td>{{(metrics.daily.income*30).toFixed(2)}}</td>
+              </tr>
+              <tr>
+                <td class="uk-text-bold">Yearly Income</td>
+                <td>{{(metrics.daily.income*365).toFixed(2)}}</td>
+              </tr>
+              <tr>
+                <td class="uk-text-bold">Daily Savings</td>
+                <td>{{(metrics.savings.daily).toFixed(2)}}</td>
+              </tr>
+              <tr>
+                <td class="uk-text-bold">Monthly Savings</td>
+                <td>{{(metrics.savings.monthly).toFixed(2)}}</td>
+              </tr>
+              <tr>
+                <td class="uk-text-bold">Yearly Savings</td>
+                <td>{{(metrics.savings.yearly).toFixed(2)}}</td>
+              </tr>
+              <tr>           
+                <td class="uk-text-bold">Projections (1Y/3Y/5Y/10Y)</td>
+                <td>{{"(" + (metrics.savings.yearly).toFixed(2) + " / " + (metrics.savings.yearly*3).toFixed(2)+ " / " + (metrics.savings.yearly*5).toFixed(2)+"/"+(metrics.savings.yearly*10).toFixed(2)+")"}}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div class="uk-width-2-3@m">
         <div class="uk-card uk-card-default uk-card-body card uk-padding-small comparison_list">
           <h3 class="inline_block">Comparison</h3>
           <table
@@ -152,20 +191,6 @@
           </table>
         </div>
       </div>
-      <div class="uk-width-1-2@m">
-        <div class="uk-card uk-card-default uk-card-body card uk-padding-small card-chart">
-          <h3 class="inline_block">
-            Category timeline
-            <span
-              class="uk-text-meta"
-            >({{ filter_values.category || "select from barchart"}})</span>
-          </h3>
-          <span class="uk-text-meta" v-if="filter_values.category">{{selected_category_stats}}</span>
-          <div class="chart-container-timeline" v-if="filter_values.category">
-            <reactive-time-line :chart-data="selected_category_timeline_data"></reactive-time-line>
-          </div>
-        </div>
-      </div>
     </div>
   </section>
 </template>
@@ -179,6 +204,8 @@ import ChartHelper from "../js/helpers/chart.js";
 import ParserHelper from "../js/helpers/parser.js";
 import FinanceHelper from "../js/helpers/finance.js";
 
+
+
 const day_ms = 86400000;
 const today_ms = new Date().getTime();
 
@@ -190,26 +217,10 @@ export default {
   },
   data() {
     return {
-      sankeyChartData: {
-        nodes: [
-          { name: "Loon" },
-          { name: "Income" },
-          { name: "Savings" },
-          { name: "Deposit" },
-          { name: "Huur" }
-        ],
-        links: [
-          { source: "Loon", target: "Income", value: 2000 },
-          { source: "Deposit", target: "Income", value: 200 },
-          { source: "Income", target: "Savings", value: 2200 },
-          { source: "Income", target: "Huur", value: 250 }
-        ]
-      },
       charts: {
         data: {
           timeline_balance: {},
-          bar_costs: {},
-          bar_income: {}
+          sankey: {}
         },
         plugins: {
           timeline_bicolor: ChartHelper.get_bicolor_plugin(
@@ -228,11 +239,14 @@ export default {
         raw_records_by_category: {},
         raw_category_totals: []
       },
-      //Options for components
       options: {
         filters_daterange_lang: "en",
         shortcuts: [
-          { text: "Last 7 days", start: today_ms - 7 * day_ms, end: today_ms },
+          {
+            text: "Last 7 days",
+            start: today_ms - 7 * day_ms,
+            end: today_ms
+          },
           {
             text: "Last 31 days",
             start: today_ms - 31 * day_ms,
@@ -273,22 +287,10 @@ export default {
         this.metrics = FinanceHelper.generate_metrics_from_records(
           this.$store.getters.rawData
         );
-        //TODO
-        let [costs, income] = ChartHelper.prepare_barchart_cost_income_data(
-          this.preprocessed.raw_category_totals
-        );
+        this.charts.data.sankey=ChartHelper.prepare_sankeychart_cost_income_data(this.preprocessed.raw_category_totals);
+
         this.charts.data.timeline_balance = ChartHelper.format_chartdata_timeline_balance(
           this.preprocessed.raw_timeline_balance
-        );
-        this.charts.data.bar_costs = ChartHelper.format_chartdata_barchart(
-          costs.data,
-          costs.colors,
-          costs.labels
-        );
-        this.charts.data.bar_income = ChartHelper.format_chartdata_barchart(
-          income.data,
-          income.colors,
-          income.labels
         );
         this.filter.records_by_category = this.preprocessed.raw_records_by_category;
       } else {
@@ -319,26 +321,11 @@ export default {
           filtered_records_by_category,
           "amount"
         );
-        //TODO
-        let [costs, income] = ChartHelper.prepare_barchart_cost_income_data(
-          filtered_category_totals
-        );
 
+        this.charts.data.sankey=ChartHelper.prepare_sankeychart_cost_income_data(filtered_category_totals);       
         this.filtered.records_by_category = filtered_records_by_category;
         this.charts.data.timeline_balance = ChartHelper.format_chartdata_timeline_balance(
           filtered_timeline_data
-        );
-
-        //TODO
-        this.charts.data.bar_costs = ChartHelper.format_chartdata_barchart(
-          costs.data,
-          costs.colors,
-          costs.labels
-        );
-        this.charts.data.bar_income = ChartHelper.format_chartdata_barchart(
-          income.data,
-          income.colors,
-          income.labels
         );
       }
       return true;
@@ -363,10 +350,13 @@ export default {
       );
     },
     clickSankey(e) {
-        //Get the label of the clicked node and set filter
-        if(e.target.nextSibling && e.target.nextSibling.children[0]){           
-            this.filter_values.category = e.target.nextSibling.children[0].innerHTML;
+      //Get the label of the clicked node and set filter
+      if (e.target.nextSibling && e.target.nextSibling.children[0]) {
+
+        if(e.target.nextSibling.children[0].innerHTML!="Income"){
+          this.filter_values.category = e.target.nextSibling.children[0].innerHTML;
         }
+      }
     }
   },
   created() {
@@ -376,24 +366,10 @@ export default {
       this.$store.getters.rawData
     );
 
-    //TODO: replace barcharts with nodes
-    let [costs, income] = ChartHelper.prepare_barchart_cost_income_data(
-      this.preprocessed.raw_category_totals
-    );
+    this.charts.data.sankey=ChartHelper.prepare_sankeychart_cost_income_data(this.preprocessed.raw_category_totals);    
+    
     this.charts.data.timeline_balance = ChartHelper.format_chartdata_timeline_balance(
       this.preprocessed.raw_timeline_balance
-    );
-
-    //TODO: replace barcharts with nodes
-    this.charts.data.bar_costs = ChartHelper.format_chartdata_barchart(
-      costs.data,
-      costs.colors,
-      costs.labels
-    );
-    this.charts.data.bar_income = ChartHelper.format_chartdata_barchart(
-      income.data,
-      income.colors,
-      income.labels
     );
   },
   computed: {

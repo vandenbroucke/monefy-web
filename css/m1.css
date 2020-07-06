@@ -12417,6 +12417,18 @@ iframe.uk-cover {
 .uk-modal-title {
   font-size: 1.5rem;
 }
+.d2b-sankey-node tspan {
+  font-size: 0.8em;
+}
+.d2b-sankey-node rect {
+  cursor: pointer;
+}
+.d2b-chart {
+  height: 400px !important;
+}
+.d2b-chart .d2b-chart-container {
+  transform: translateY(10px) !important;
+}
 .chartjs-size-monitor {
   display: none !important;
 }
@@ -12436,7 +12448,7 @@ iframe.uk-cover {
   cursor: pointer !important;
 }
 #dashboard .record_list {
-  max-height: 38vh;
+  max-height: 475px;
   overflow-y: auto;
 }
 #dashboard .record_list td,

@@ -9,7 +9,7 @@
 
 * ✔️ Balance over time graph with date filtering
 * ✔️ Simple analytical summary of selected time period (Savings and projections)
-* ✔️ Costs and income visualized per category
+* ✔️ Costs and income visualized per category using a Sankey chart
 * ✔️ Records by category listing and timeline
 * ✔️ Monthly balance comparison (check how well you did compared to last year)
 * 💡 New feature ideas? Submit an issue with the enhancement label [here](https://github.com/vandenbroucke/monefy-web/issues/new)!
