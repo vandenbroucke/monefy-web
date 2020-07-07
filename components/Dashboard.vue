@@ -39,7 +39,7 @@
             Records
             <span
               class="uk-text-meta"
-            >({{ filter_values.category || "select from barchart"}})</span>
+            >({{ filter_values.category || "select from sankeychart"}})</span>
           </h3>
           <table
             class="uk-table uk-table-striped uk-margin-remove-top"
