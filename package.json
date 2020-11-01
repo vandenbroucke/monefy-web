@@ -1,6 +1,6 @@
 {
   "name": "monefy-web",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "A web layer for the Monefy, the handy personal finance management tool.",
   "main": "index.js",
   "scripts": {

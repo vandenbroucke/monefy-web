@@ -7,7 +7,7 @@ module.exports = {
   mode: "production",
   entry: ["./js/index.js"],
   output: {
-    filename: "bundle6736845552.js",
+    filename: "b1.js",
     path: path.resolve(__dirname, "./js/")
   },
   module: {

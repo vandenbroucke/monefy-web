@@ -204,8 +204,6 @@ import ChartHelper from "../js/helpers/chart.js";
 import ParserHelper from "../js/helpers/parser.js";
 import FinanceHelper from "../js/helpers/finance.js";
 
-
-
 const day_ms = 86400000;
 const today_ms = new Date().getTime();
 
